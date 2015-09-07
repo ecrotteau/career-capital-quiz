@@ -10,9 +10,15 @@
 			<h1>
 				If you want to focus on building career capital, what's the best career path for you?
 			</h1>
-			<div id="quizSummary">
+			<div id="quizSummary" class="large">
+				Take our quiz to get some ideas. Our of the career paths we've reviewed so far, our quiz filters the profiles based on your personal situation, then ranks the remainder based on those we rate most highly for ambitious graduates who want to maximise their career capital.
 			</div>
-			<div id="questionListContainer"></div>
+
+			<div id="quizContainer">
+				<a class="arrow arrow-left"></a>
+				<div id="questionListContainer"></div>
+				<a class="arrow arrow-right"></a>
+			</div>
 		</div>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -28,15 +34,15 @@
 		<script src="js/app.js" type="text/javascript"></script>
 		
 		<script type="text/template" id="questionTemplate">
-			<div class="questionContainer" id="question-<%= id %>">
+			<div class="questionContainer" id="question-<%= id %>" style="display: none;">
 				<div class="questionHeader">
-					<%= body %>
+					<span class="questionNumberBadge"><%= id %></span> <%= body %>
 				</div>
 				
 				<ul class="questionResponseContainer">
 					<% _.each(responseOptions, function(responseOption) { %>
-						<li width="<%= responseWidth %>%" class="responseContainer">
-							<input type="radio" name="question-<%= id %>-response" id="question-<%= id %>-response-<%= responseOption.slug %>" value="<%= responseOption.slug %>" />
+						<li style="width:<%= responseWidth %>%;" class="responseOption">
+							<input type="radio" name="question-<%= id %>-response" id="question-<%= id %>-response-<%= responseOption.slug %>" data-question-id="<%= id %>" value="<%= responseOption.slug %>" />
 							<label for="question-<%= id %>-response-<%= responseOption.slug %>" class="responseButton">
 								<strong><%= responseOption.body %></strong><br/>
 								<%= responseOption.subtext %>
@@ -44,6 +50,7 @@
 						</li>
 					<% }); %>
 				</ul>
+				<div style="clear:both"></div>
 			</div>
 		</script>
 	</body>
