@@ -43,25 +43,6 @@ $(function() {
 		},
 		{
 			id: 3,
-			body: "How comfortable are you working in a highly competitive environment?",
-			subtext: "",
-			responseOptions: [
-				{
-					body: "Very",
-					slug: "very",
-					subtext: "Bring it on!",
-					filter: ""
-				},
-				{
-					body: "Not very",
-					slug: "not",
-					subtext: "",
-					filter: "lowCompetition"
-				},
-			]	
-		},
-		{
-			id: 4,
 			body: "How comfortable are you working in a highly competitive field?",
 			subtext: "",
 			responseOptions: [
@@ -86,14 +67,14 @@ $(function() {
 			]	
 		},
 		{
-			id: 5,
-			body: "How uncertain are you about what yo uwant to do in the future?",
+			id: 4,
+			body: "How uncertain are you about what you want to do in the future?",
 			subtext: "",
 			responseOptions: [
 				{
 					body: "Very uncertain",
 					slug: "very",
-					subtext: "Still figuring things out",
+					subtext: "",
 					filter: "highOption"
 				},
 				{
