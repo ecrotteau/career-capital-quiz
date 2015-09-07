@@ -12,6 +12,10 @@ $(function(){
 			model: Response,
 			
 			localStorage: new Backbone.LocalStorage("career-capital-quiz-responses"),
+            
+            questionHasBeenAnswered: function(question) {
+                    return this.get(question.id) !== undefined;
+			}
 	});
 	
 	// Export to window

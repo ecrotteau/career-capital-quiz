@@ -11,8 +11,8 @@ $(function() {
 		
 		events: {
 			"change input[type=radio]" : "updateResponses",
-			"click .arrow-left.active" : "previousQuestion",
-			"click .arrow-right.active" : "nextQuestion",
+			"click .arrow-left.enabled" : "previousQuestion",
+			"click .arrow-right.enabled" : "nextQuestion",
 		},
 		
 		render: function() {
@@ -21,13 +21,18 @@ $(function() {
 			}, this));
 			
 			this.$el.find(this.visible.domId()).show();
+		
+			this.setArrowActivity();
+
 			
-			// set up controls
-			
-			// LATER: add percent completion bar
+			// TODO LATER: add percent completion bar
 			
 			
 		},
+		
+		//
+		// Event Handling
+		//
 		
 		updateResponses: function(event) {
 			var target = $(event.target);
@@ -36,6 +41,54 @@ $(function() {
 
 			var response = this.responses.get(questionId) || this.responses.add({"questionId": questionId});
 			response.save({value: choice});
+			this.setArrowActivity();
+		},
+		
+		previousQuestion: function() {
+			var newVisible = this.collection.at(this.collection.indexOf(this.visible) - 1);
+			if (newVisible) {
+				this.$el.find(this.visible.domId()).fadeOut(_.bind(function() {
+					this.$el.find(newVisible.domId()).fadeIn();
+				}, this));
+				
+				this.visible = newVisible;
+			} else {
+				// TODO: something flashy, or make this case impossible with smart UX
+			}
+			this.setArrowActivity();
+		},
+		
+		nextQuestion: function() {
+			var newVisible = this.collection.at(this.collection.indexOf(this.visible) + 1);
+			if (newVisible) {
+				this.$el.find(this.visible.domId()).fadeOut(_.bind(function() {
+					this.$el.find(newVisible.domId()).fadeIn();
+				}, this));
+				
+				this.visible = newVisible;
+			} else {
+				// TODO: something flashy, or make this case impossible with smart UX
+			}
+			
+			this.setArrowActivity();
+			// Check if all questions have been answered, and proceed to results
+		},
+		
+		//
+		// Helpers
+		//
+		
+		setArrowActivity: function() {
+			this.$el.find(".arrow-left").toggleClass("enabled", this.canGoBack());
+			this.$el.find(".arrow-right").toggleClass("enabled", this.canProceed());
+		},
+		
+		canGoBack: function() {
+			return this.collection.indexOf(this.visible) !== 0;
+		},
+		
+		canProceed: function() {
+			return this.responses.questionHasBeenAnswered(this.visible) && (this.collection.indexOf(this.visible) !== (this.collection.length - 1))			
 		}
 	});
 	
