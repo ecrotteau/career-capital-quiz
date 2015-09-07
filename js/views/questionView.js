@@ -2,38 +2,36 @@ $(function() {
 	var QuestionListView = Backbone.View.extend({
 		el: $("#quizContainer"),
 		questionTemplate: _.template($("#questionTemplate").html()),
-		
+
 		initialize: function() {
 			this.visible = this.collection.get(1);		//TODO: or from localStorage
 			this.responses = new app.ResponseList();	// TODO: or from localStorage
 			this.render();
 		},
-		
+
 		events: {
 			"change input[type=radio]" : "updateResponses",
 			"click .arrow-left.enabled" : "previousQuestion",
 			"click .arrow-right.enabled" : "nextQuestion",
 		},
-		
+
 		render: function() {
 			this.collection.forEach(_.bind(function(question) {
 				this.$el.find("#questionListContainer").append(this.questionTemplate(question.toJSON()))
 			}, this));
-			
+
 			this.$el.find(this.visible.domId()).show();
-		
+
 			this.setArrowActivity();
 
-			
 			// TODO LATER: add percent completion bar
 			
-			
 		},
-		
+
 		//
 		// Event Handling
 		//
-		
+
 		updateResponses: function(event) {
 			var target = $(event.target);
 			var choice = target.val();
@@ -43,55 +41,55 @@ $(function() {
 			response.save({value: choice});
 			this.setArrowActivity();
 		},
-		
+
 		previousQuestion: function() {
 			var newVisible = this.collection.at(this.collection.indexOf(this.visible) - 1);
 			if (newVisible) {
 				this.$el.find(this.visible.domId()).fadeOut(_.bind(function() {
 					this.$el.find(newVisible.domId()).fadeIn();
 				}, this));
-				
+
 				this.visible = newVisible;
 			} else {
 				// TODO: something flashy, or make this case impossible with smart UX
 			}
 			this.setArrowActivity();
 		},
-		
+
 		nextQuestion: function() {
 			var newVisible = this.collection.at(this.collection.indexOf(this.visible) + 1);
 			if (newVisible) {
 				this.$el.find(this.visible.domId()).fadeOut(_.bind(function() {
 					this.$el.find(newVisible.domId()).fadeIn();
 				}, this));
-				
+
 				this.visible = newVisible;
 			} else {
 				// TODO: something flashy, or make this case impossible with smart UX
 			}
-			
+
 			this.setArrowActivity();
 			// Check if all questions have been answered, and proceed to results
 		},
-		
+
 		//
 		// Helpers
 		//
-		
+
 		setArrowActivity: function() {
 			this.$el.find(".arrow-left").toggleClass("enabled", this.canGoBack());
 			this.$el.find(".arrow-right").toggleClass("enabled", this.canProceed());
 		},
-		
+
 		canGoBack: function() {
 			return this.collection.indexOf(this.visible) !== 0;
 		},
-		
+
 		canProceed: function() {
-			return this.responses.questionHasBeenAnswered(this.visible) && (this.collection.indexOf(this.visible) !== (this.collection.length - 1))			
+			return this.responses.questionHasBeenAnswered(this.visible) && (this.collection.indexOf(this.visible) !== (this.collection.length - 1));
 		}
 	});
-	
+
 	window.app = window.app || {};
 	window.app.QuestionListView = QuestionListView;
 });
