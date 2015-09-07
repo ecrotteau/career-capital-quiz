@@ -4,6 +4,10 @@ $(function(){
 			
 			// provide to view template for dynamic sizing
 			this.set("responseWidth", Math.round(100 / this.get("responseOptions").length));
+		},
+		
+		domId: function() {
+			return "#question-" + this.id;
 		}
 
 	});

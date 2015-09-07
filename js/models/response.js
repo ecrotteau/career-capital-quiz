@@ -1,5 +1,10 @@
 $(function(){
 	var Response = Backbone.Model.extend({
+        idAttribute: "questionId",       // Enforce one response per question
+        
+        defaults: {
+                "value": undefined
+        }
 
 	});
 	
