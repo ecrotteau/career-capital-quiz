@@ -20,6 +20,8 @@ $(function() {
 				this.$el.find("#questionListContainer").append(this.questionTemplate(question.toJSON()))
 			}, this));
 
+			this.$el.find("#questionListContainer").append(_.template($("#quizCompleteTemplate").html())());
+
 			this.$el.find(this.visible.domId()).show();
 
 			this.setArrowActivity();
@@ -43,33 +45,45 @@ $(function() {
 		},
 
 		previousQuestion: function() {
-			var newVisible = this.collection.at(this.collection.indexOf(this.visible) - 1);
-			if (newVisible) {
-				this.$el.find(this.visible.domId()).fadeOut(_.bind(function() {
-					this.$el.find(newVisible.domId()).fadeIn();
-				}, this));
+			if (this.visible == "results") {
+				this.visible = this.collection.last()
+				this.swap("#resultsContainer", this.visible.domId());
 
-				this.visible = newVisible;
+				// TODO: hide results display
 			} else {
-				// TODO: something flashy, or make this case impossible with smart UX
+				var newVisible = this.collection.at(this.collection.indexOf(this.visible) - 1);
+				if (newVisible) {
+					this.swap(this.visible.domId(), newVisible.domId());
+					this.visible = newVisible;
+				} else {
+					// TODO: something flashy, or make this case impossible with smart UX
+				}
 			}
 			this.setArrowActivity();
 		},
 
 		nextQuestion: function() {
-			var newVisible = this.collection.at(this.collection.indexOf(this.visible) + 1);
-			if (newVisible) {
-				this.$el.find(this.visible.domId()).fadeOut(_.bind(function() {
-					this.$el.find(newVisible.domId()).fadeIn();
-				}, this));
-
-				this.visible = newVisible;
+			if (this.proceedToResults()) {
+				this.renderResults();
 			} else {
-				// TODO: something flashy, or make this case impossible with smart UX
-			}
+				var newVisible = this.collection.at(this.collection.indexOf(this.visible) + 1);
+				if (newVisible) {
+					this.swap(this.visible.domId(), newVisible.domId());
+					this.visible = newVisible;
+				} else {
+					// TODO: something flashy, or make this case impossible with smart UX
+				}
 
+				this.setArrowActivity();
+			}
+		},
+		
+		renderResults: function() {
+			this.swap(this.visible.domId(), "#resultsContainer");
+			this.visible = "results";
 			this.setArrowActivity();
-			// Check if all questions have been answered, and proceed to results
+			
+			// TODO: show career results display
 		},
 
 		//
@@ -86,7 +100,17 @@ $(function() {
 		},
 
 		canProceed: function() {
-			return this.responses.questionHasBeenAnswered(this.visible) && (this.collection.indexOf(this.visible) !== (this.collection.length - 1));
+			return this.responses.questionHasBeenAnswered(this.visible);
+		},
+
+		proceedToResults: function() {
+			return (this.collection.indexOf(this.visible) == (this.collection.length - 1)) && this.responses.allQuestionsAnswered();
+		},
+		
+		swap: function(selectorToRemove, selectorToShow) {
+			this.$el.find(selectorToRemove).fadeOut(_.bind(function() {
+				this.$el.find(selectorToShow).fadeIn();
+			}, this));
 		}
 	});
 

@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>80,000 Hours Career Capital Quiz</title>
 		<link rel="stylesheet" href="css/app.css">
+		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body>
 		<div id="mainContent">
@@ -31,6 +32,7 @@
 		<script src="js/models/response.js" type="text/javascript"></script>
 		<script src="js/views/questionView.js" type="text/javascript"></script>
 		<script src="data/questions.js" type="text/javascript"></script>
+		<script src="data/careers.js" type="text/javascript"></script>
 		<script src="js/app.js" type="text/javascript"></script>
 		
 		<script type="text/template" id="questionTemplate">
@@ -51,6 +53,17 @@
 					<% }); %>
 				</ul>
 				<div style="clear:both"></div>
+			</div>
+		</script>
+		
+		<script type="text/template" id="quizCompleteTemplate">
+			<div id="resultsContainer" style="display: none;">
+				<h1>
+					Your Results
+				</h1>
+				<div id="quizSummary" class="large">
+					Of the careers we've reviewed so far, these are the ones we recommed you explore as opportunities to maximise your career capital. Click through to the in-depth reviews to see if any sound like a good fit.
+				</div>
 			</div>
 		</script>
 	</body>

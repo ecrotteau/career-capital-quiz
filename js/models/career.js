@@ -1,25 +1,27 @@
 $(function(){
 	var Career = Backbone.Model.extend({
 		initialize: function(careerJSON) {
-			this.title		= careerJSON.title;
-			this.link		= careerJSON.link;
-			this.slug		= careerJSON.slug;
-			this.image		= careerJSON.featuredImageUrl;
-			this.summary	= careerJSON.custom_fields.summaryHtml;
-			this.nextSteps 	= careerJSON.custom_fields.nextStepsHtml;
-			this.notes 		= careerJSON.custom_fields.notesHtml;
-			this.quality	= careerJSON.custom_fields.quality;
-			this.recommendationLevel 	= careerJSON.custom_fields.overallDoWeGenerallyRecommendThisPath;
-			this.directImpactPotential 	= careerJSON.custom_fields.directImpactPotential;
-			this.careerCapital			= careerJSON.custom_fields.careerCapital;
-			this.skillBuildingPotential	= careerJSON.custom_fields.skillBuildingPotential;
-			this.optionValue			= careerJSON.custom_fields.optionValue;
-			this.networkingPotential	= careerJSON.custom_fields.networkingPotential;
-			this.earningsPotential		= careerJSON.custom_fields.earningsPotential;
-			this.advocacyPotential		= careerJSON.custom_fields.advocacyPotential;
-			this.easeOfCompetition		= careerJSON.custom_fields.easeOfCompetition;
-			this.quantitative 			= careerJSON.custom_fields.requiresQuantitativeSkills;
-			this.verbalAndSocial		= careerJSON.custom_fields.requiresVerbalAndSocialSkills;
+            this.clear();
+
+			this.set("title", careerJSON.title);
+			this.set("link", careerJSON.link);
+			this.set("slug", careerJSON.slug);
+			this.set("image", careerJSON.featuredImageUrl);
+			this.set("summary", careerJSON.custom_fields.summaryHtml);
+			this.set("nextSteps", careerJSON.custom_fields.nextStepsHtml);
+			this.set("notes", careerJSON.custom_fields.notesHtml);
+			this.set("quality", careerJSON.custom_fields.quality);
+			this.set("recommendationLevel", careerJSON.custom_fields.overallDoWeGenerallyRecommendThisPath);
+			this.set("directImpactPotential", careerJSON.custom_fields.directImpactPotential);
+			this.set("careerCapital", careerJSON.custom_fields.careerCapital);
+			this.set("skillBuildingPotential", careerJSON.custom_fields.skillBuildingPotential);
+			this.set("optionValue", careerJSON.custom_fields.optionValue);
+			this.set("networkingPotential", careerJSON.custom_fields.networkingPotential);
+			this.set("earningsPotential", careerJSON.custom_fields.earningsPotential);
+			this.set("advocacyPotential", careerJSON.custom_fields.advocacyPotential);
+			this.set("easeOfCompetition", careerJSON.custom_fields.easeOfCompetition);
+			this.set("quantitative", careerJSON.custom_fields.requiresQuantitativeSkills);
+			this.set("verbalAndSocial", careerJSON.custom_fields.requiresVerbalAndSocialSkills);
 		}
 	});
 	
