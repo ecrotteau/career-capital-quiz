@@ -4,6 +4,10 @@ $(function(){
 				
 				defaults: {
 								"value": undefined
+				},
+				
+				getFilter: function() {
+					return _.where(app.questions.get(this.get("questionId")).get("responseOptions"), _.bind(function(responseOption) { responseOption.slug == this.value }, this))[0].filter;
 				}
 
 	});
@@ -19,6 +23,17 @@ $(function(){
 
 			allQuestionsAnswered: function() {
 				return app.questionData.length == this.length
+			},
+			
+			getFiltersFromQuestions: function() {
+				var filters = [];
+
+				this.forEach(function(result) {
+					var filter = result.getFilter();
+					if (filter !== "") filters.push(filter);
+				});
+
+				return filters;
 			}
 	});
 

@@ -1,8 +1,9 @@
 $(function(){
 	var Career = Backbone.Model.extend({
 		initialize: function(careerJSON) {
-            this.clear();
+			this.clear();		// don't use the unprocessed JSON
 
+			this.set("id", careerJSON.ID);
 			this.set("title", careerJSON.title);
 			this.set("link", careerJSON.link);
 			this.set("slug", careerJSON.slug);
@@ -22,6 +23,11 @@ $(function(){
 			this.set("easeOfCompetition", careerJSON.custom_fields.easeOfCompetition);
 			this.set("quantitative", careerJSON.custom_fields.requiresQuantitativeSkills);
 			this.set("verbalAndSocial", careerJSON.custom_fields.requiresVerbalAndSocialSkills);
+			this.set("keyFacts", careerJSON.custom_fields.skillType.keyFactsOnFit);
+		},
+		
+		domId: function() {
+			return "#career-" + this.id;
 		}
 	});
 	

@@ -3,9 +3,10 @@ $(function() {
 		el: $("#quizContainer"),
 		questionTemplate: _.template($("#questionTemplate").html()),
 
-		initialize: function() {
+		initialize: function(options) {
 			this.visible = this.collection.get(1);		//TODO: or from localStorage
 			this.responses = new app.ResponseList();	// TODO: or from localStorage
+			this.listener = options.listener;
 			this.render();
 		},
 
@@ -27,7 +28,7 @@ $(function() {
 			this.setArrowActivity();
 
 			// TODO LATER: add percent completion bar
-			
+
 		},
 
 		//
@@ -47,7 +48,7 @@ $(function() {
 		previousQuestion: function() {
 			if (this.visible == "results") {
 				this.visible = this.collection.last()
-				this.swap("#resultsContainer", this.visible.domId());
+				this.swap("#resultsSplash", this.visible.domId());
 
 				// TODO: hide results display
 			} else {
@@ -79,11 +80,11 @@ $(function() {
 		},
 		
 		renderResults: function() {
-			this.swap(this.visible.domId(), "#resultsContainer");
+			this.swap(this.visible.domId(), "#resultsSplash");
 			this.visible = "results";
 			this.setArrowActivity();
-			
-			// TODO: show career results display
+
+			this.listener.trigger("careers:display", this.responses);
 		},
 
 		//
