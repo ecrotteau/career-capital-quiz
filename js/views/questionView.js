@@ -5,7 +5,8 @@ $(function() {
 
 		initialize: function(options) {
 			this.visible = this.collection.get(1);		//TODO: or from localStorage
-			this.responses = new app.ResponseList();	// TODO: or from localStorage
+			this.responses = new app.ResponseList();
+			//this.responses.fetch();		// Load from localstorage
 			this.listener = options.listener;
 			this.render();
 		},
@@ -42,7 +43,7 @@ $(function() {
 
 			var response = this.responses.get(questionId) || this.responses.add({"questionId": questionId});
 			response.save({value: choice});
-			this.setArrowActivity();
+			this.nextQuestion();
 		},
 
 		previousQuestion: function() {

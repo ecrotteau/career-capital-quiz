@@ -27,14 +27,19 @@ $(function() {
 			this.collection.resetEffectiveCareerCapital();
 			var collectionToShow = this.collection;
 
-			_.forEach(filters, _.bind(function(filter) {
-				collectionToShow = this.collection[filter](collectionToShow);
-			}, this));
+			if (filters.length > 0) {
+				_.forEach(filters, _.bind(function(filter) {
+					collectionToShow = this.collection[filter](collectionToShow);
+				}, this));
+			} else {
+				collectionToShow = collectionToShow.models;
+			}
 
 			collectionToShow = _.sortBy(collectionToShow, function(career) {
 				return -(career.get("effectiveCareerCapital"));
 			});
-			this.renderCareers(collectionToShow);
+
+			this.renderCareers(_.first(collectionToShow,5));
 		},
 
 		emptyResults: function() {

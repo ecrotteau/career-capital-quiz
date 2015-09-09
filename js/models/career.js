@@ -55,12 +55,15 @@ $(function(){
 		},
 
 		highOption: function(careers) {
-			careers.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCaptital") + 2*career.get("optionValue"))});
+			careers.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCapital") + 2*career.get("optionValue"))});
 			return careers;
 		},
 
 		mediumOptions: function(careers) {
-			careers.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCaptital") + career.get("optionValue")) });
+			careers.forEach(function(career) { 
+				career.set("effectiveCareerCapital", career.get("careerCapital") + career.get("optionValue"));
+				
+				});
 			return careers;
 		}
 	});
