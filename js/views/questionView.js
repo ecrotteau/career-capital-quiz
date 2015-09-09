@@ -49,8 +49,8 @@ $(function() {
 			if (this.visible == "results") {
 				this.visible = this.collection.last()
 				this.swap("#resultsSplash", this.visible.domId());
+				this.listener.trigger("careers:hide");
 
-				// TODO: hide results display
 			} else {
 				var newVisible = this.collection.at(this.collection.indexOf(this.visible) - 1);
 				if (newVisible) {

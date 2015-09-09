@@ -59,7 +59,7 @@ $(function(){
 			return careers;
 		},
 
-		mediumOptions: function() {
+		mediumOptions: function(careers) {
 			careers.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCaptital") + career.get("optionValue")) });
 			return careers;
 		}

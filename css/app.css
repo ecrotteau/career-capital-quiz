@@ -180,6 +180,9 @@ h1 {
 
 .careerContainer .careerImageContainer .careerButton:hover {
 	border-color: #028496;
+	position:relative;
+	left:1px;
+	top:1pxl
 }
 
 .careerContainer .careerDescription {

@@ -7,19 +7,21 @@ $(function() {
 			this.render();
 			this.listener = options.listener;
 			this.listener.on("careers:display", _.bind(this.filterCareersByResults, this));
-		},
-
-		events: {
+			this.listener.on("careers:hide", _.bind(function() {
+				this.emptyResults();
+			}, this));
 		},
 
 		renderCareers: function(careers) {
 			careers.forEach(_.bind(function(career) {
 				this.$el.append(this.careerTemplate(career.toJSON()))
 			}, this));
+			
+			this.$el.find(".careerContainer").fadeIn(500);
 		},
 
 		filterCareersByResults: function(results) {
-			this.$el.empty();
+			this.emptyResults();
 			var filters = results.getFiltersFromQuestions();
 
 			this.collection.resetEffectiveCareerCapital();
@@ -30,13 +32,15 @@ $(function() {
 			}, this));
 
 			collectionToShow = _.sortBy(collectionToShow, function(career) {
-				console.log(career.get("effectiveCareerCapital"))
 				return -(career.get("effectiveCareerCapital"));
 			});
-
-			console.log(collectionToShow)
-
 			this.renderCareers(collectionToShow);
+		},
+
+		emptyResults: function() {
+			this.$el.find(".careerContainer").fadeOut(500, _.bind(function() {
+				this.$el.empty();
+			}, this));
 		}
 
 	});
