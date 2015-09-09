@@ -12,36 +12,32 @@ $(function() {
 		events: {
 		},
 
-		render: function() {
-			this.collection.forEach(_.bind(function(career) {
+		renderCareers: function(careers) {
+			careers.forEach(_.bind(function(career) {
 				this.$el.append(this.careerTemplate(career.toJSON()))
 			}, this));
 		},
 
 		filterCareersByResults: function(results) {
+			this.$el.empty();
 			var filters = results.getFiltersFromQuestions();
-			console.log(filters)
-			
-			// first sort by impact, then filter and possibly re-sort
 
-			this.showFilteredCareers(this.collection);
-		},
-		
-		showFilteredCareers: function(careers) {
-			var visibleSelector = careers.map(function(career) { return career.domId() }).join(", ");
-			this.$el.find(".careerContainer").hide(_.bind(function() {
-				this.$el.find(visibleSelector).show();
+			this.collection.resetEffectiveCareerCapital();
+			var collectionToShow = this.collection;
+
+			_.forEach(filters, _.bind(function(filter) {
+				collectionToShow = this.collection[filter](collectionToShow);
 			}, this));
-		},
 
-		//
-		// Event Handling
-		//
+			collectionToShow = _.sortBy(collectionToShow, function(career) {
+				console.log(career.get("effectiveCareerCapital"))
+				return -(career.get("effectiveCareerCapital"));
+			});
 
-		//
-		// Helpers
-		//
+			console.log(collectionToShow)
 
+			this.renderCareers(collectionToShow);
+		}
 
 	});
 

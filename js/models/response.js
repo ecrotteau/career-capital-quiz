@@ -3,11 +3,15 @@ $(function(){
 				idAttribute: "questionId",       // Enforce one response per question
 				
 				defaults: {
-								"value": undefined
+					"value": undefined
 				},
 				
 				getFilter: function() {
-					return _.where(app.questions.get(this.get("questionId")).get("responseOptions"), _.bind(function(responseOption) { responseOption.slug == this.value }, this))[0].filter;
+					var options = app.questions.get(this.get("questionId")).get("responseOptions");
+
+					return _.filter(options, _.bind(function(responseOption) {
+						return responseOption.slug == this.get("value");
+						}, this))[0].filter;
 				}
 
 	});

@@ -24,17 +24,47 @@ $(function(){
 			this.set("quantitative", careerJSON.custom_fields.requiresQuantitativeSkills);
 			this.set("verbalAndSocial", careerJSON.custom_fields.requiresVerbalAndSocialSkills);
 			this.set("keyFacts", careerJSON.custom_fields.skillType.keyFactsOnFit);
-		},
-		
-		domId: function() {
-			return "#career-" + this.id;
 		}
 	});
 	
 	var CareerList = Backbone.Collection.extend({
-		model: Career
+		model: Career,
+
+		resetEffectiveCareerCapital: function() {
+			this.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCapital"))});
+		},
+
+		//
+		// Filters
+		//
+
+		lowQuantitative: function(careers) {
+			return careers.filter(function(career) { return career.get("quantitative") < 4 });
+		},
+
+		lowVerbalAndSocial: function(careers) {
+			return careers.filter(function(career) { return career.get("verbalAndSocial") < 4 });
+		},
+
+		mediumCompetition: function(careers) {
+			return careers.filter(function(career) { return career.get("easeOfCompetition") > 1 });
+		},
+
+		lowCompetition: function(careers) {
+			return careers.filter(function(career) { return career.get("easeOfCompetition") > 2 });
+		},
+
+		highOption: function(careers) {
+			careers.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCaptital") + 2*career.get("optionValue"))});
+			return careers;
+		},
+
+		mediumOptions: function() {
+			careers.forEach(function(career) { career.set("effectiveCareerCapital", career.get("careerCaptital") + career.get("optionValue")) });
+			return careers;
+		}
 	});
-	
+
 	// Export to window
 	window.app = window.app || {};
 	window.app.Career = Career;
